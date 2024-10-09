@@ -1,0 +1,126 @@
+import { LineVertical, SealCheck } from "@phosphor-icons/react/dist/ssr";
+import { Roboto_Slab, Rubik } from "next/font/google";
+import React from "react";
+
+const hostname = process.env.HOSTNAME;
+
+const rubik = Rubik({
+  subsets: ["latin"],
+  display: "swap",
+});
+
+const fetchBlogData = async (slug, userId) => {
+  const res = await fetch(`${hostname}/api/v1/blogs/slug/${slug}`, {
+    cache: "no-store",
+  });
+  if (!res.ok) {
+    return null;
+  }
+  const data = await res.json();
+  return data.data;
+};
+
+export async function generateMetadata({ params }) {
+  // const session = await auth();
+  // let userId = session ? session.user.userId : "";
+
+  const blog = await fetchBlogData(params.slug);
+
+  if (!blog) {
+    return {
+      title: "Not Found",
+      description: "The blog post you are looking for does not exist.",
+    };
+  }
+
+  return {
+    title: `${blog.heading} - My Blog`,
+    description: blog.description,
+    openGraph: {
+      title: blog.heading,
+      description: blog.description,
+      images: [blog.featuredImage],
+      url: `${hostname}/blog/${params.slug}`,
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: blog.heading,
+      description: blog.description,
+      image: blog.featuredImage,
+    },
+  };
+}
+
+const Page = async ({ params }) => {
+  // const session = await auth();
+  // let userId = session ? session.user.userId : "";
+
+  const blog = await fetchBlogData(params.slug);
+
+  const contentWithLineBreaks = blog.content;
+
+  const dateString = blog.createdAt;
+  const dateObj = new Date(dateString);
+  const day = String(dateObj.getDate()).padStart(2, "0");
+  const month = String(dateObj.getMonth() + 1).padStart(2, "0");
+  const year = String(dateObj.getFullYear());
+  const oneThirdContent = blog.content.substring(0, blog.content.length / 3);
+
+  return (
+    <>
+      <div className="flex justify-center py-6 px-4">
+        <div className="w-[700px]">
+          <div>
+            <div className="flex items-center gap-2 ">
+              <p className="text-sm font-medium">{blog.genre}</p>
+              <LineVertical weight="bold" />
+            </div>
+            <div className="my-4 font-medium">
+              <p className={`font-bold text-3xl leading-tight`}>
+                {blog.heading}
+              </p>
+            </div>
+          </div>
+          <div className="flex flex-wrap items-center gap-2">
+            <img
+              className="w-8 h-8 rounded-full"
+              src={blog?.author?.photo}
+              alt={`${blog.author.name} profile image`}
+            />
+            <p className="">{blog.author.name}</p>
+            {blog.author.verified && (
+              <SealCheck className="text-black" weight="fill" />
+            )}
+            <div className="ml-2 flex flex-wrap gap-0 items-center">
+              <LineVertical weight="bold" />
+            </div>
+          </div>
+          <div className="mt-4 flex justify-center">
+            <img
+              src={blog.featuredImage}
+              className="w-full max-w-8xl rounded-sm"
+              alt="Featured image"
+            />
+          </div>
+          <div className="flex flex-col items-center">
+            <p className="my-4  lg:w-full border-stone-700 text-stone-600">
+              {blog.description}
+            </p>
+          </div>
+          <div className="flex justify-center">
+            <div
+              className={`hyphens-auto  text-sm md:text-lg overflow-hidden leading-loose mt-10 tracking-wider text-stone-700  antialiased mb-10`}
+              dangerouslySetInnerHTML={{ __html: contentWithLineBreaks }}
+            ></div>
+          </div>
+          <div className="lg:px-40 flex flex-col items-center"></div>
+        </div>
+      </div>
+      <div className="flex mt-20 justify-center">
+        <div className="w-full max-w-3xl pt-10 flex flex-col gap-4"></div>
+      </div>
+    </>
+  );
+};
+
+export default Page;
