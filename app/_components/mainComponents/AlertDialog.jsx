@@ -11,8 +11,9 @@ import {
   Button,
 } from "@chakra-ui/react";
 import react from "react";
+import DeleteButton from "../blogComponents/DeleteBlog";
 
-const AlertDialogComponent = ({ children = "None" }) => {
+const AlertDialogComponent = ({ blog }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const cancelRef = react.useRef();
 
@@ -41,7 +42,7 @@ const AlertDialogComponent = ({ children = "None" }) => {
               <Button ref={cancelRef} onClick={onClose}>
                 Cancel
               </Button>
-              {children}
+              <DeleteButton blogId={blog._id} />
             </AlertDialogFooter>
           </AlertDialogContent>
         </AlertDialogOverlay>
