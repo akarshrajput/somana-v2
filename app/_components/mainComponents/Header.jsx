@@ -15,7 +15,7 @@ import { auth } from "@/app/_lib/auth";
 const Header = async () => {
   const session = await auth();
   return (
-    <div className="flex w-full items-center bg-stone-50 py-1 px-2">
+    <div className="flex w-full items-center bg-white py-1 px-2">
       <Logo />
 
       <div className="ml-auto">

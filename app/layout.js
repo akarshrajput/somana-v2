@@ -14,7 +14,7 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body className={`${dmSans.className} antialiased bg-stone-50`}>
+      <body className={`${dmSans.className} antialiased`}>
         <ChakraProvider>
           <ReactQueryProvider>
             <div>

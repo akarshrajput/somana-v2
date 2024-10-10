@@ -30,3 +30,14 @@ export async function createUser(data) {
     };
   }
 }
+
+export async function checkUsernameExists(username) {
+  try {
+    await connectMongoDB();
+    const user = await User.findOne({ username: username });
+    return user ? true : false;
+  } catch (err) {
+    console.error("Error checking username:", err);
+    throw new Error("Error checking username");
+  }
+}

@@ -8,7 +8,7 @@ const rubik = Rubik({
 const TrendingBlogs = () => {
   return (
     <div className="flex flex-col  gap-2 p-2 rounded-md">
-      <p className="font-semibold ">Trending</p>
+      <p className="font-bold">Trending</p>
       <div className="text-sm">
         <div className="relative flex items-center gap-x-2">
           {/* <img
