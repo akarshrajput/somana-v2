@@ -1,3 +1,4 @@
+// models/Blog.js
 import mongoose from "mongoose";
 import User from "./userModel"; // Ensure the User model is imported
 
@@ -70,14 +71,6 @@ const blogSchema = new mongoose.Schema(
       ref: "User",
       required: [true, "Blog must have an author"],
     },
-    numberOfViews: {
-      type: Number,
-      default: 0,
-    },
-    numberOfLikes: {
-      type: Number,
-      default: 0,
-    },
   },
   {
     toJSON: { virtuals: true },
@@ -86,37 +79,36 @@ const blogSchema = new mongoose.Schema(
   }
 );
 
-// Pre hook to populate author and conditionally populate views if not excluded
 blogSchema.pre(/^find/, function (next) {
   this.populate({
     path: "author",
     select: "name email photo verified accountType occupation",
   });
-
-  // Only populate views if it's not explicitly excluded in the query
-  if (!this.getQuery().select || !this.getQuery().select.includes("-views")) {
-    this.populate({
-      path: "views",
-      select: "name",
-    });
-  }
-
   next();
 });
 
-// Pre-save hook to automatically update the slug and manage likes/views count
 blogSchema.pre("save", function (next) {
   const s = this.heading.split(" ").join("-").toLowerCase();
   const id = this._id;
   const u = `${s.substring(0, 40)}-${id}`;
   const m = u.replace(/[^a-zA-Z0-9-]/g, "");
   this.slug = m;
-
-  // Update the number of likes and views when saving the blog
-  this.numberOfLikes = this.likes.length;
-  this.numberOfViews = this.views.length;
-
   next();
+});
+
+blogSchema.virtual("readTime").get(function () {
+  const wordsPerMinute = 200; // Average reading speed
+  const words = this.content ? this.content.split(/\s+/).length : 0;
+  const readTimeMinutes = Math.ceil(words / wordsPerMinute);
+  return readTimeMinutes;
+});
+
+blogSchema.virtual("numberOfViews").get(function () {
+  return this.views.length;
+});
+
+blogSchema.virtual("numberOfLikes").get(function () {
+  return this.likes.length;
 });
 
 const Blog = mongoose.models.Blog || mongoose.model("Blog", blogSchema);

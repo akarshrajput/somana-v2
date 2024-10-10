@@ -1,3 +1,13 @@
+import AddComment from "@/app/_components/blogComponents/AddComment";
+import BlogComments from "@/app/_components/blogComponents/BlogComments";
+import BlogDate from "@/app/_components/blogComponents/BlogDate";
+import BlogInfoPopUp from "@/app/_components/blogComponents/BlogInfoPopUp";
+import DeleteButton from "@/app/_components/blogComponents/DeleteBlog";
+import LikeButton from "@/app/_components/blogComponents/LikeButton";
+import AlertDialogComponent from "@/app/_components/mainComponents/AlertDialog";
+import AlertDialog from "@/app/_components/mainComponents/AlertDialog";
+import Footer from "@/app/_components/mainComponents/Footer";
+import { auth } from "@/app/_lib/auth";
 import { LineVertical, SealCheck } from "@phosphor-icons/react/dist/ssr";
 import { Roboto_Slab, Rubik } from "next/font/google";
 import React from "react";
@@ -52,8 +62,8 @@ export async function generateMetadata({ params }) {
 }
 
 const Page = async ({ params }) => {
-  // const session = await auth();
-  // let userId = session ? session.user.userId : "";
+  const session = await auth();
+  let userId = session ? session.user.userId : "";
 
   const blog = await fetchBlogData(params.slug);
 
@@ -71,10 +81,16 @@ const Page = async ({ params }) => {
       <div className="flex justify-center py-6 px-4">
         <div className="w-[700px]">
           <div>
-            <div className="flex items-center gap-2 ">
-              <p className="text-sm font-medium">{blog.genre}</p>
+            {/* <BlogInfoPopUp session={session} blog={blog} /> */}
+            <div className="flex items-center gap-1 ">
+              <p className="font-bold text-green-600">{blog.genre}</p>
               <LineVertical weight="bold" />
+              <BlogDate
+                className="font-bold text-sm"
+                blogDate={blog.createdAt}
+              />
             </div>
+
             <div className="my-4 font-medium">
               <p className={`font-bold text-3xl leading-tight`}>
                 {blog.heading}
@@ -87,13 +103,32 @@ const Page = async ({ params }) => {
               src={blog?.author?.photo}
               alt={`${blog.author.name} profile image`}
             />
-            <p className="">{blog.author.name}</p>
+            <p className="font-semibold">{blog.author.name}</p>
             {blog.author.verified && (
               <SealCheck className="text-black" weight="fill" />
             )}
             <div className="ml-2 flex flex-wrap gap-0 items-center">
+              <LikeButton
+                blogId={params.slug}
+                initialLikes={blog.likes}
+                userId={userId}
+              />
               <LineVertical weight="bold" />
+              <p className="font-semibold text-sm">
+                {blog.numberOfViews} views
+              </p>
+              <LineVertical weight="bold" />
+              <p className="font-semibold text-sm">{blog.readTime} min read</p>
             </div>
+            {userId === blog.author._id && (
+              <div className="md:ml-auto flex items-center gap-2">
+                {/* <UpdateBlogButton blog={blog} /> */}
+
+                <AlertDialogComponent
+                  children={<DeleteButton blogId={blog._id} />}
+                />
+              </div>
+            )}
           </div>
           <div className="mt-4 flex justify-center">
             <img
@@ -118,6 +153,28 @@ const Page = async ({ params }) => {
       </div>
       <div className="flex mt-20 justify-center">
         <div className="w-full max-w-3xl pt-10 flex flex-col gap-4"></div>
+      </div>
+      <div className="flex mt-20 justify-center">
+        <div className="w-[700px] pt-10 flex flex-col gap-4">
+          {session?.user ? (
+            <AddComment
+              session={session}
+              hostname={hostname}
+              blogId={blog._id}
+              authorId={userId}
+            />
+          ) : (
+            // <UserLoginError>
+            //   <p>Login to comment on this blog.</p>
+            //   <LoginButton />
+            // </UserLoginError>
+            <p>Hi</p>
+          )}
+          <BlogComments hostname={hostname} blogId={blog._id} />
+        </div>
+      </div>
+      <div>
+        <Footer />
       </div>
     </>
   );

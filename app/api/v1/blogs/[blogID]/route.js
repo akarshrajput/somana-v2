@@ -1,6 +1,6 @@
-import connectMongoDB from "./../../../../_lib/mongodb";
-import Blog from "./../../../../_models/blogModel";
-import supabase from "./../../../../_lib/supabase";
+import supabase from "@/app/_lib/supabase";
+import connectMongoDB from "@/app/_lib/mongodb";
+import Blog from "@/app/_models/blogModel";
 import { NextResponse } from "next/server";
 
 export async function GET(request) {
