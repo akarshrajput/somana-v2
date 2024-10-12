@@ -3,31 +3,35 @@ import React, { useState } from "react";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import { Trash } from "@phosphor-icons/react";
-import { Button, Spinner } from "@chakra-ui/react";
+import { Button, Spinner, useToast } from "@chakra-ui/react";
 
-const DeleteButton = ({ blogId, onDeleteSuccess }) => {
+const DeleteButton = ({ blogId }) => {
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
+  const toast = useToast();
 
   const handleDelete = async () => {
-    if (!blogId) {
-      toast.error("Blog ID is required");
-      return;
-    }
-
     try {
       setIsLoading(true);
       const response = await axios.delete(`/api/v1/blogs/${blogId}`);
       if (response.status === 200) {
         router.push("/");
-        if (onDeleteSuccess) {
-          onDeleteSuccess();
-        } else {
-          router.reload();
-        }
+        toast({
+          title: "Story deleted!",
+          description: "Story added successfully",
+          status: "success",
+          duration: 3000,
+          isClosable: true,
+        });
       }
     } catch (error) {
-      console.error("Error deleting blog:", error);
+      toast({
+        title: "Error",
+        description: "Error deleting story!",
+        status: "error",
+        duration: 3000,
+        isClosable: true,
+      });
     } finally {
       setIsLoading(false);
     }
