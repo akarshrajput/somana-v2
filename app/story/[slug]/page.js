@@ -124,7 +124,7 @@ const Page = async ({ params }) => {
               <div className="md:ml-auto flex items-center gap-2">
                 {/* <UpdateBlogButton blog={blog} /> */}
 
-                <AlertDialogComponent blog={blog._id} />
+                <AlertDialogComponent blogId={blog._id} />
               </div>
             )}
           </div>

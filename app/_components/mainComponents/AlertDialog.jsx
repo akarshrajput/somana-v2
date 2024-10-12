@@ -13,7 +13,7 @@ import {
 import react from "react";
 import DeleteButton from "../blogComponents/DeleteBlog";
 
-const AlertDialogComponent = ({ blog }) => {
+const AlertDialogComponent = ({ blogId }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const cancelRef = react.useRef();
 
@@ -42,7 +42,7 @@ const AlertDialogComponent = ({ blog }) => {
               <Button ref={cancelRef} onClick={onClose}>
                 Cancel
               </Button>
-              <DeleteButton blogId={blog._id} />
+              <DeleteButton blogId={blogId} />
             </AlertDialogFooter>
           </AlertDialogContent>
         </AlertDialogOverlay>
