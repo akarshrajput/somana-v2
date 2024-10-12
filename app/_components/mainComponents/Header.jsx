@@ -13,6 +13,7 @@ import {
   Bug,
   CaretDown,
   Database,
+  Detective,
   Gear,
   GithubLogo,
   InstagramLogo,
@@ -134,6 +135,12 @@ const Header = async () => {
                     <Bug weight="bold" className="mr-2" />
                     Bug Report
                   </MenuItem>
+                  <Link href="/policy">
+                    <MenuItem>
+                      <Detective weight="bold" className="mr-2" />
+                      Policy
+                    </MenuItem>
+                  </Link>
                   <Divider />
                   <MenuItem>
                     <UserCheck weight="bold" className="mr-2" />
