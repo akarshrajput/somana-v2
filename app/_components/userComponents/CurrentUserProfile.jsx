@@ -2,12 +2,58 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Spinner, useToast } from "@chakra-ui/react";
+import { useQuery, useMutation } from "@tanstack/react-query"; // Updated import
+import UpdateUsername from "./UpdateUsername";
+
+const fetchUserData = async (userId) => {
+  const response = await axios.get(`/api/v1/users/${userId}`);
+  return response.data.data;
+};
 
 const CurrentUserProfile = ({ session }) => {
   const userId = session.user.userId;
   const toast = useToast();
 
-  const [user, setUser] = useState({
+  const {
+    data: user,
+    isLoading,
+    isError,
+  } = useQuery({
+    queryKey: ["user", userId],
+    queryFn: () => fetchUserData(userId),
+    enabled: !!userId, // Only run the query if userId is available
+    staleTime: 5000, // Optional: keep data fresh for 5 seconds
+  });
+
+  const mutation = useMutation({
+    mutationFn: (userData) => {
+      return axios.patch(`/api/v1/users/${userId}`, userData, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+    },
+    onSuccess: () => {
+      toast({
+        title: "Success!",
+        description: "User data updated.",
+        status: "success",
+        duration: 5000,
+        isClosable: true,
+      });
+    },
+    onError: () => {
+      toast({
+        title: "Fail!",
+        description: "User data not updated.",
+        status: "error",
+        duration: 5000,
+        isClosable: true,
+      });
+    },
+  });
+
+  const [userProfile, setUserProfile] = useState({
     name: "",
     email: "",
     photo: "",
@@ -29,52 +75,15 @@ const CurrentUserProfile = ({ session }) => {
     accountType: "",
   });
 
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-
   useEffect(() => {
-    const fetchUserData = async () => {
-      if (userId) {
-        try {
-          const response = await axios.get(`/api/v1/users/${userId}`);
-          const userData = response.data.data;
-          setUser({
-            accountType: userData.accountType,
-            name: userData.name,
-            userName: userData.userName,
-            email: userData.email,
-            photo: userData.photo,
-            mobileNumber: userData.mobileNumber,
-            bio: userData.bio,
-            status: userData.status,
-            gender: userData.gender,
-            city: userData.city,
-            state: userData.state,
-            country: userData.country,
-            occupation: userData.occupation,
-            qualification: userData.qualification,
-            studiedFrom: userData.studiedFrom,
-            nickname: userData.nickname,
-            maritalStatus: userData.maritalStatus,
-            company: userData.company,
-            subscription: userData.subscription,
-            dob: userData.dob,
-          });
-          console.log(response);
-          setLoading(false);
-        } catch (error) {
-          setError("Error fetching user data");
-          setLoading(false);
-        }
-      }
-    };
-
-    fetchUserData();
-  }, [userId]);
+    if (user) {
+      setUserProfile(user);
+    }
+  }, [user]);
 
   const handleInputChange = (e) => {
     const { name, value, type, checked } = e.target;
-    setUser((prevUser) => ({
+    setUserProfile((prevUser) => ({
       ...prevUser,
       [name]: type === "checkbox" ? checked : value,
     }));
@@ -82,36 +91,10 @@ const CurrentUserProfile = ({ session }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    try {
-      setLoading(true);
-      const response = await axios.patch(`/api/v1/users/${userId}`, user, {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-      toast({
-        title: "Success!",
-        description: "User data updated.",
-        status: "success",
-        duration: 5000,
-        isClosable: true,
-      });
-    } catch (error) {
-      toast({
-        title: "Fail!",
-        description: "User data not updated.",
-        status: "error",
-        duration: 5000,
-        isClosable: true,
-      });
-      // console.log(error);
-    } finally {
-      setLoading(false);
-    }
+    mutation.mutate(userProfile);
   };
 
-  if (loading)
+  if (isLoading)
     return (
       <div className="flex justify-center">
         <Spinner
@@ -123,15 +106,16 @@ const CurrentUserProfile = ({ session }) => {
         />
       </div>
     );
-  if (error) {
+
+  if (isError) {
     toast({
       title: "Error",
       description: "Facing error!",
-      status: "success",
+      status: "error",
       duration: 3000,
       isClosable: true,
     });
-    return <div>{error}</div>;
+    return <div>Error fetching user data!</div>;
   }
 
   return (
@@ -141,20 +125,21 @@ const CurrentUserProfile = ({ session }) => {
         className="customised-input flex flex-col text-sm gap-4 rounded-md w-full"
       >
         <img
-          src={user.photo}
-          alt={`${user.name}'s profile`}
+          src={userProfile.photo}
+          alt={`${userProfile.name}'s profile`}
           className="w-36 h-36 rounded-lg border-4 border-stone-300"
         />
-        <p>{user.userName}</p>
+        <UpdateUsername userId={userId} userName={userProfile.userName} />
+
         <div className="flex items-center gap-2">
           <p className="bg-stone-100 antialiased px-4 py-1 border rounded-md">
-            {user.name}
-          </p>
-          <p className="bg-stone-100  antialiased px-4 py-1 border rounded-md ">
-            {user.email}
+            {userProfile.name}
           </p>
           <p className="bg-stone-100 antialiased px-4 py-1 border rounded-md ">
-            Subscription : {user.subscription ? "Yes" : "No"}
+            {userProfile.email}
+          </p>
+          <p className="bg-stone-100 antialiased px-4 py-1 border rounded-md ">
+            Subscription : {userProfile.subscription ? "Yes" : "No"}
           </p>
         </div>
         <div className="flex flex-col gap-2">
@@ -163,9 +148,9 @@ const CurrentUserProfile = ({ session }) => {
             <textarea
               name="bio"
               rows={4}
-              value={user.bio}
+              value={userProfile.bio}
               onChange={handleInputChange}
-              className="bg-stone-100 resize-none  antialiased px-2 py-1.5 border rounded-md"
+              className="bg-stone-100 resize-none antialiased px-2 py-1.5 border rounded-md"
             />
           </label>
           <div className="grid grid-cols-3 gap-2">
@@ -174,9 +159,9 @@ const CurrentUserProfile = ({ session }) => {
               <input
                 type="text"
                 name="mobileNumber"
-                value={user.mobileNumber}
+                value={userProfile.mobileNumber}
                 onChange={handleInputChange}
-                className="bg-stone-100  antialiased px-2 py-1 border rounded-md"
+                className="bg-stone-100 antialiased px-2 py-1 border rounded-md"
               />
             </label>
             <label className="flex flex-col gap-1">
@@ -184,18 +169,18 @@ const CurrentUserProfile = ({ session }) => {
               <input
                 type="text"
                 name="status"
-                value={user.status}
+                value={userProfile.status}
                 onChange={handleInputChange}
-                className="bg-stone-100  antialiased px-2 py-1 border rounded-md"
+                className="bg-stone-100 antialiased px-2 py-1 border rounded-md"
               />
             </label>
             <label className="flex flex-col gap-1">
               <span className="text-gray-700 ">Gender</span>
               <select
                 name="gender"
-                value={user.gender}
+                value={userProfile.gender}
                 onChange={handleInputChange}
-                className="bg-stone-100  antialiased px-2 py-1 border rounded-md"
+                className="bg-stone-100 antialiased px-2 py-1 border rounded-md"
               >
                 <option value="" disabled>
                   Select Gender
@@ -211,9 +196,9 @@ const CurrentUserProfile = ({ session }) => {
               <input
                 type="text"
                 name="city"
-                value={user.city}
+                value={userProfile.city}
                 onChange={handleInputChange}
-                className="bg-stone-100  antialiased px-2 py-1 border rounded-md"
+                className="bg-stone-100 antialiased px-2 py-1 border rounded-md"
               />
             </label>
             <label className="flex flex-col gap-1">
@@ -221,9 +206,9 @@ const CurrentUserProfile = ({ session }) => {
               <input
                 type="text"
                 name="state"
-                value={user.state}
+                value={userProfile.state}
                 onChange={handleInputChange}
-                className="bg-stone-100  antialiased px-2 py-1 border rounded-md"
+                className="bg-stone-100 antialiased px-2 py-1 border rounded-md"
               />
             </label>
             <label className="flex flex-col gap-1">
@@ -231,9 +216,9 @@ const CurrentUserProfile = ({ session }) => {
               <input
                 type="text"
                 name="country"
-                value={user.country}
+                value={userProfile.country}
                 onChange={handleInputChange}
-                className="bg-stone-100  antialiased px-2 py-1 border rounded-md"
+                className="bg-stone-100 antialiased px-2 py-1 border rounded-md"
               />
             </label>
           </div>
@@ -243,9 +228,9 @@ const CurrentUserProfile = ({ session }) => {
               <input
                 type="text"
                 name="occupation"
-                value={user.occupation}
+                value={userProfile.occupation}
                 onChange={handleInputChange}
-                className="bg-stone-100  antialiased px-2 py-1 border rounded-md"
+                className="bg-stone-100 antialiased px-2 py-1 border rounded-md"
               />
             </label>
             <label className="flex flex-col gap-1">
@@ -253,9 +238,9 @@ const CurrentUserProfile = ({ session }) => {
               <input
                 type="text"
                 name="qualification"
-                value={user.qualification}
+                value={userProfile.qualification}
                 onChange={handleInputChange}
-                className="bg-stone-100  antialiased px-2 py-1 border rounded-md"
+                className="bg-stone-100 antialiased px-2 py-1 border rounded-md"
               />
             </label>
             <label className="flex flex-col gap-1">
@@ -263,9 +248,9 @@ const CurrentUserProfile = ({ session }) => {
               <input
                 type="text"
                 name="studiedFrom"
-                value={user.studiedFrom}
+                value={userProfile.studiedFrom}
                 onChange={handleInputChange}
-                className="bg-stone-100  antialiased px-2 py-1 border rounded-md"
+                className="bg-stone-100 antialiased px-2 py-1 border rounded-md"
               />
             </label>
           </div>
@@ -275,7 +260,7 @@ const CurrentUserProfile = ({ session }) => {
               <input
                 type="text"
                 name="nickname"
-                value={user.nickname}
+                value={userProfile.nickname}
                 onChange={handleInputChange}
                 className="bg-stone-100  antialiased px-2 py-1 border rounded-md"
               />
@@ -285,7 +270,7 @@ const CurrentUserProfile = ({ session }) => {
               <select
                 type="text"
                 name="maritalStatus"
-                value={user.maritalStatus}
+                value={userProfile.maritalStatus}
                 onChange={handleInputChange}
                 className="bg-stone-100 
                 antialiased px-2 py-1 border rounded-md"
@@ -303,7 +288,7 @@ const CurrentUserProfile = ({ session }) => {
               <input
                 type="text"
                 name="company"
-                value={user.company}
+                value={userProfile.company}
                 onChange={handleInputChange}
                 className="bg-stone-100  antialiased px-2 py-1 border rounded-md"
               />
@@ -315,7 +300,7 @@ const CurrentUserProfile = ({ session }) => {
               <input
                 type="date"
                 name="dob"
-                value={user.dob}
+                value={userProfile.dob}
                 onChange={handleInputChange}
                 className="bg-stone-100  antialiased px-2 py-1 border rounded-md"
               />
@@ -325,7 +310,7 @@ const CurrentUserProfile = ({ session }) => {
               <select
                 type="text"
                 name="accountType"
-                value={user.accountType}
+                value={userProfile.accountType}
                 onChange={handleInputChange}
                 className="bg-stone-100 
                 antialiased px-2 py-1 border rounded-md"
@@ -341,10 +326,10 @@ const CurrentUserProfile = ({ session }) => {
         </div>
         <button
           type="submit"
-          disabled={loading}
+          disabled={isLoading}
           className="bg-emerald-600 w-fit text-stone-50 py-2 px-4 rounded-md mt-4"
         >
-          {loading ? "Updating..." : "Update Profile"}
+          {isLoading ? "Updating..." : "Update"}
         </button>
       </form>
     </div>
