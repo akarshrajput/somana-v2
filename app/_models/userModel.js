@@ -15,6 +15,7 @@ const userSchema = new mongoose.Schema(
     },
     userName: {
       type: String,
+      unique: true,
     },
     photo: {
       type: String,
@@ -100,6 +101,13 @@ const userSchema = new mongoose.Schema(
     timestamps: true,
   }
 );
+
+userSchema.pre("save", function (next) {
+  if (!this.userName && this.email) {
+    this.userName = this.email.split("@")[0];
+  }
+  next();
+});
 
 const User = mongoose.models.User || mongoose.model("User", userSchema);
 

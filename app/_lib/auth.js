@@ -2,20 +2,9 @@ import NextAuth from "next-auth";
 import Google from "next-auth/providers/google";
 import GitHub from "next-auth/providers/github";
 import Facebook from "next-auth/providers/facebook";
-import { createUser, getUser, checkUsernameExists } from "./services";
+import Reddit from "next-auth/providers/reddit";
 
-const generateUniqueUsername = async (name) => {
-  let baseUsername = name.toLowerCase().replace(/\s+/g, "");
-  let uniqueUsername = baseUsername;
-  let count = 1;
-
-  // Check if the username exists, and modify it if necessary
-  while (await checkUsernameExists(uniqueUsername)) {
-    uniqueUsername = `${baseUsername}${count}`;
-    count++;
-  }
-  return uniqueUsername;
-};
+import { createUser, getUser } from "./services";
 
 const authConfig = {
   providers: [
@@ -31,17 +20,20 @@ const authConfig = {
       clientId: process.env.AUTH_FACEBOOK_ID,
       clientSecret: process.env.AUTH_FACEBOOK_SECRET,
     }),
+    Reddit({
+      clientId: process.env.AUTH_REDDIT_ID,
+      clientSecret: process.env.AUTH_REDDIT_SECRET,
+    }),
   ],
+  // callback run before the signup process
   callbacks: {
     async signIn({ user, account, profile }) {
       try {
         const existingUser = await getUser(user.email);
         if (!existingUser) {
-          const uniqueUsername = await generateUniqueUsername(user.name);
           await createUser({
             email: user.email,
             name: user.name,
-            username: uniqueUsername, // Save the unique username
             photo: user.image,
           });
         }
@@ -54,7 +46,6 @@ const authConfig = {
       const guest = await getUser(session.user.email);
       session.user.userId = guest._id;
       session.user.photo = guest.photo;
-      session.user.username = guest.username; // Add username to session
     },
   },
   pages: {

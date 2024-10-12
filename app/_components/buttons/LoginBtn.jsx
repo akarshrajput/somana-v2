@@ -1,5 +1,5 @@
 "use client";
-import { signInAction, signInGithub } from "@/app/_lib/actions";
+import { signInAction, signInGithub, signInReddit } from "@/app/_lib/actions";
 import {
   Modal,
   ModalOverlay,
@@ -30,14 +30,14 @@ const LoginBtn = () => {
           </ModalHeader>
           <ModalCloseButton />
           <ModalBody>
-            <div className="flex flex-col items-center">
-              <div className="flex gap-4 w-full flex-col items-center  p-10 rounded-md">
-                <div className="flex w-full font-semibold flex-col items-center gap-4">
+            <div className="flex flex-col w-full items-center">
+              <div className="flex w-full gap-4 flex-col items-center  p-8 rounded-md">
+                <div className="flex w-full font-semibold flex-col items-center gap-2">
                   <form className="w-full" action={signInAction}>
                     <button className="flex justify-center w-full items-center   bg-gray-100 py-3 rounded-md border border-stone-200 ">
                       <div className="flex items-center gap-2">
                         <img src="/login-google-logo.png" className="h-6" />
-                        Login using Google
+                        Google
                       </div>
                     </button>
                   </form>
@@ -45,7 +45,7 @@ const LoginBtn = () => {
                     <button className="flex justify-center w-full items-center  bg-gray-100 py-3 rounded-md border border-gray-200 ">
                       <div className="flex items-center gap-2">
                         <img src="/login-github-logo.png" className="h-6" />
-                        Login using GitHub
+                        GitHub
                       </div>
                     </button>
                   </form>
@@ -57,10 +57,18 @@ const LoginBtn = () => {
                     >
                       <div className="flex items-center gap-2">
                         <img src="/login-facebook-logo.webp" className="h-6" />
-                        Login using FaceBook
+                        FaceBook
                       </div>
                     </button>
                   </form>
+                  {/* <form className="w-full" action={signInReddit}>
+                    <button className="flex justify-center w-full items-center  bg-gray-100 py-3 rounded-md border border-gray-200 ">
+                      <div className="flex items-center gap-2">
+                        <img src="/login-github-logo.png" className="h-6" />
+                        Reddit
+                      </div>
+                    </button>
+                  </form> */}
                 </div>
               </div>
             </div>
