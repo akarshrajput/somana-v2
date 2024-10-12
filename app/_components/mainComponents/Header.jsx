@@ -102,12 +102,13 @@ const Header = async () => {
                   />
                 </MenuButton>
                 <MenuList>
-                  <Link href="#">
+                  <Link href="/me">
                     <MenuItem>
                       <UserCircle weight="bold" className="mr-2" />
                       Profile
-                    </MenuItem>
+                    </MenuItem>{" "}
                   </Link>
+
                   <MenuItem>
                     <Book weight="bold" className="mr-2" />
                     Stories

@@ -74,7 +74,7 @@ const BlogsList = () => {
                     <div className="text-sm flex font-medium text-gray-900 items-center gap-1">
                       <Link
                         className="hover:underline"
-                        href={`user/${post.author.email}`}
+                        href={`p/${post.author.userName}`}
                       >
                         {post.author.name}
                       </Link>
@@ -124,7 +124,14 @@ const BlogsList = () => {
             ))
           )}
           {(isLoading || isFetchingNextPage) && (
-            <Spinner size="lg" className="self-center" />
+            <Spinner
+              thickness="4px"
+              speed="0.65s"
+              emptyColor="gray.200"
+              color="green.500"
+              size="lg"
+              className="self-center"
+            />
           )}
           <div ref={loaderRef} className="h-10"></div> {/* Loader element */}
         </div>

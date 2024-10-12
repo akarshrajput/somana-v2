@@ -104,7 +104,7 @@ const userSchema = new mongoose.Schema(
 
 userSchema.pre("save", function (next) {
   if (!this.userName && this.email) {
-    this.userName = this.email.split("@")[0];
+    this.userName = this.email.split("@")[0].replace(/[^a-zA-Z0-9]/g, "_");
   }
   next();
 });
