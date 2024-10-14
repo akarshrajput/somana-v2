@@ -1,8 +1,10 @@
 import { DM_Sans } from "next/font/google";
+import { ThemeProvider } from "next-themes";
 import "./globals.css";
 import { ChakraProvider } from "@chakra-ui/react";
 import ReactQueryProvider from "./_components/context/ReactQueryProvider";
 import Header from "./_components/mainComponents/Header";
+import { ReactThemeProvider } from "./_components/context/ReactThemeProvider";
 
 const dmSans = DM_Sans({ subsets: ["latin"] });
 
@@ -14,18 +16,22 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body className={`${dmSans.className} antialiased`}>
-        <ChakraProvider>
-          <ReactQueryProvider>
-            <div>
-              <div className="fixed top-0 w-full z-10">
-                <Header />
+      <body
+        className={`${dmSans.className} antialiased dark:bg-black dark:text-stone-50`}
+      >
+        <ReactThemeProvider>
+          <ChakraProvider>
+            <ReactQueryProvider>
+              <div>
+                <div className="fixed top-0 w-full z-10">
+                  <Header />
+                </div>
+                <div className="h-12"></div>
+                {children}
               </div>
-              <div className="h-12"></div>
-              {children}
-            </div>
-          </ReactQueryProvider>
-        </ChakraProvider>
+            </ReactQueryProvider>
+          </ChakraProvider>
+        </ReactThemeProvider>
       </body>
     </html>
   );

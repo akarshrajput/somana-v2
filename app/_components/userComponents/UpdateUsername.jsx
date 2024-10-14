@@ -11,6 +11,7 @@ import {
   ModalCloseButton,
   useDisclosure,
   Button,
+  useColorModeValue,
 } from "@chakra-ui/react";
 import { useQueryClient } from "@tanstack/react-query";
 
@@ -111,7 +112,7 @@ const UpdateUsername = ({ userId, userName }) => {
   return (
     <>
       <div className="flex items-center gap-2">
-        <p className="bg-stone-100 antialiased px-4 py-1 border rounded-md">
+        <p className="bg-stone-100 dark:bg-stone-800 dark:border-stone-700 antialiased px-4 py-1 border rounded-md">
           @{userName}
         </p>
         <Button size="sm" colorScheme="green" onClick={onOpen}>

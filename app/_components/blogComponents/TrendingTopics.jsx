@@ -7,27 +7,19 @@ const TrendingTopics = () => {
         <TrendUp weight="bold" /> Trend right now!
       </p>
       <div className="flex flex-wrap items-center gap-2">
-        <p className="hover:underline bg-stone-100 p-1 px-2 rounded-full text-sm">
+        <p className="hover:underline dark:bg-stone-800 bg-stone-100 p-1 px-2 rounded-full text-sm">
           Technology
         </p>
-        <p className="hover:underline text-sm bg-stone-100 p-1 px-2 rounded-full ">
+        <p className="hover:underline dark:bg-stone-800 text-sm bg-stone-100 p-1 px-2 rounded-full ">
           Quotes
         </p>
 
-        <p className="hover:underline text-sm bg-stone-100 p-1 px-2 rounded-full">
+        <p className="hover:underline dark:bg-stone-800 text-sm bg-stone-100 p-1 px-2 rounded-full">
           Sustainable
         </p>
 
-        <p className="hover:underline text-sm bg-stone-100 p-1 px-2 rounded-full">
+        <p className="hover:underline dark:bg-stone-800 text-sm bg-stone-100 p-1 px-2 rounded-full">
           Blog
-        </p>
-
-        <p className="hover:underline text-sm bg-stone-100 p-1 px-2 rounded-full">
-          Biographies
-        </p>
-
-        <p className="hover:underline text-sm bg-stone-100 p-1 px-2 rounded-full">
-          War in Israel
         </p>
       </div>
     </div>

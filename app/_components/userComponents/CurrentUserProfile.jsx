@@ -132,55 +132,57 @@ const CurrentUserProfile = ({ session }) => {
         <UpdateUsername userId={userId} userName={userProfile.userName} />
 
         <div className="flex items-center gap-2">
-          <p className="bg-stone-100 antialiased px-4 py-1 border rounded-md">
+          <p className="bg-stone-100 dark:bg-stone-800 dark:text-stone-50 dark:border-stone-700 antialiased px-4 py-1 border rounded-md">
             {userProfile.name}
           </p>
-          <p className="bg-stone-100 antialiased px-4 py-1 border rounded-md ">
+          <p className="bg-stone-100 dark:bg-stone-800 dark:text-stone-50 dark:border-stone-700 antialiased px-4 py-1 border rounded-md ">
             {userProfile.email}
           </p>
-          <p className="bg-stone-100 antialiased px-4 py-1 border rounded-md ">
+          <p className="bg-stone-100 dark:bg-stone-800 dark:text-stone-50 dark:border-stone-700 antialiased px-4 py-1 border rounded-md ">
             Subscription : {userProfile.subscription ? "Yes" : "No"}
           </p>
         </div>
         <div className="flex flex-col gap-2">
           <label className="flex flex-col gap-1">
-            <span className="text-gray-700 ">Bio</span>
+            <span className="text-gray-700  dark:text-stone-50  ">Bio</span>
             <textarea
               name="bio"
               rows={4}
               value={userProfile.bio}
               onChange={handleInputChange}
-              className="bg-stone-100 resize-none antialiased px-2 py-1.5 border rounded-md"
+              className="bg-stone-100 dark:bg-stone-800 dark:text-stone-50 dark:border-stone-700 resize-none antialiased px-2 py-1.5 border rounded-md"
             />
           </label>
           <div className="grid grid-cols-3 gap-2">
             <label className="flex flex-col gap-1">
-              <span className="text-gray-700 ">Mobile Number</span>
+              <span className="text-gray-700 dark:text-stone-50">
+                Mobile Number
+              </span>
               <input
                 type="text"
                 name="mobileNumber"
                 value={userProfile.mobileNumber}
                 onChange={handleInputChange}
-                className="bg-stone-100 antialiased px-2 py-1 border rounded-md"
+                className="bg-stone-100 dark:bg-stone-800 dark:text-stone-50 dark:border-stone-700 antialiased px-2 py-1 border rounded-md"
               />
             </label>
             <label className="flex flex-col gap-1">
-              <span className="text-gray-700 ">Status</span>
+              <span className="text-gray-700 dark:text-stone-50">Status</span>
               <input
                 type="text"
                 name="status"
                 value={userProfile.status}
                 onChange={handleInputChange}
-                className="bg-stone-100 antialiased px-2 py-1 border rounded-md"
+                className="bg-stone-100 dark:bg-stone-800 dark:text-stone-50 dark:border-stone-700 antialiased px-2 py-1 border rounded-md"
               />
             </label>
             <label className="flex flex-col gap-1">
-              <span className="text-gray-700 ">Gender</span>
+              <span className="text-gray-700 dark:text-stone-50">Gender</span>
               <select
                 name="gender"
                 value={userProfile.gender}
                 onChange={handleInputChange}
-                className="bg-stone-100 antialiased px-2 py-1 border rounded-md"
+                className="bg-stone-100 dark:bg-stone-800 dark:text-stone-50 dark:border-stone-700 antialiased px-2 py-1 border rounded-md"
               >
                 <option value="" disabled>
                   Select Gender
@@ -192,88 +194,96 @@ const CurrentUserProfile = ({ session }) => {
           </div>
           <div className="grid grid-cols-3 gap-2">
             <label className="flex flex-col gap-1">
-              <span className="text-gray-700 ">City</span>
+              <span className="text-gray-700 dark:text-stone-50">City</span>
               <input
                 type="text"
                 name="city"
                 value={userProfile.city}
                 onChange={handleInputChange}
-                className="bg-stone-100 antialiased px-2 py-1 border rounded-md"
+                className="bg-stone-100 dark:bg-stone-800 dark:text-stone-50 dark:border-stone-700 antialiased px-2 py-1 border rounded-md"
               />
             </label>
             <label className="flex flex-col gap-1">
-              <span className="text-gray-700 ">State</span>
+              <span className="text-gray-700 dark:text-stone-50">State</span>
               <input
                 type="text"
                 name="state"
                 value={userProfile.state}
                 onChange={handleInputChange}
-                className="bg-stone-100 antialiased px-2 py-1 border rounded-md"
+                className="bg-stone-100 dark:bg-stone-800 dark:text-stone-50 dark:border-stone-700 antialiased px-2 py-1 border rounded-md"
               />
             </label>
             <label className="flex flex-col gap-1">
-              <span className="text-gray-700 ">Country</span>
+              <span className="text-gray-700 dark:text-stone-50">Country</span>
               <input
                 type="text"
                 name="country"
                 value={userProfile.country}
                 onChange={handleInputChange}
-                className="bg-stone-100 antialiased px-2 py-1 border rounded-md"
+                className="bg-stone-100 dark:bg-stone-800 dark:text-stone-50 dark:border-stone-700 antialiased px-2 py-1 border rounded-md"
               />
             </label>
           </div>
           <div className="grid grid-cols-3 gap-2">
             <label className="flex flex-col gap-1">
-              <span className="text-gray-700 ">Occupation</span>
+              <span className="text-gray-700 dark:text-stone-50">
+                Occupation
+              </span>
               <input
                 type="text"
                 name="occupation"
                 value={userProfile.occupation}
                 onChange={handleInputChange}
-                className="bg-stone-100 antialiased px-2 py-1 border rounded-md"
+                className="bg-stone-100 dark:bg-stone-800 dark:text-stone-50 dark:border-stone-700 antialiased px-2 py-1 border rounded-md"
               />
             </label>
             <label className="flex flex-col gap-1">
-              <span className="text-gray-700 ">Qualification</span>
+              <span className="text-gray-700 dark:text-stone-50">
+                Qualification
+              </span>
               <input
                 type="text"
                 name="qualification"
                 value={userProfile.qualification}
                 onChange={handleInputChange}
-                className="bg-stone-100 antialiased px-2 py-1 border rounded-md"
+                className="bg-stone-100 dark:bg-stone-800 dark:text-stone-50 dark:border-stone-700 antialiased px-2 py-1 border rounded-md"
               />
             </label>
             <label className="flex flex-col gap-1">
-              <span className="text-gray-700 ">Studied From</span>
+              <span className="text-gray-700 dark:text-stone-50">
+                Studied From
+              </span>
               <input
                 type="text"
                 name="studiedFrom"
                 value={userProfile.studiedFrom}
                 onChange={handleInputChange}
-                className="bg-stone-100 antialiased px-2 py-1 border rounded-md"
+                className="bg-stone-100 dark:bg-stone-800 dark:text-stone-50 dark:border-stone-700 antialiased px-2 py-1 border rounded-md"
               />
             </label>
           </div>
           <div className="grid grid-cols-3 gap-2">
             <label className="flex flex-col gap-1">
-              <span className="text-gray-700 ">Nickname</span>
+              <span className="text-gray-700 dark:text-stone-50">Nickname</span>
               <input
                 type="text"
                 name="nickname"
                 value={userProfile.nickname}
                 onChange={handleInputChange}
-                className="bg-stone-100  antialiased px-2 py-1 border rounded-md"
+                className="bg-stone-100 dark:bg-stone-800 dark:text-stone-50 dark:border-stone-700 antialiased px-2 py-1 border rounded-md"
               />
             </label>
             <label className="flex flex-col gap-1">
-              <span className="text-gray-700 ">Marital Status</span>
+              <span className="text-gray-700 dark:text-stone-50">
+                Marital Status
+              </span>
               <select
                 type="text"
                 name="maritalStatus"
                 value={userProfile.maritalStatus}
                 onChange={handleInputChange}
                 className="bg-stone-100 
-                antialiased px-2 py-1 border rounded-md"
+                antialiased px-2 py-1 border dark:bg-stone-800 dark:text-stone-50 dark:border-stone-700 rounded-md"
               >
                 <option value="" disabled>
                   Select
@@ -284,36 +294,40 @@ const CurrentUserProfile = ({ session }) => {
               </select>
             </label>
             <label className="flex flex-col gap-1">
-              <span className="text-gray-700 ">Company</span>
+              <span className="text-gray-700 dark:text-stone-50">Company</span>
               <input
                 type="text"
                 name="company"
                 value={userProfile.company}
                 onChange={handleInputChange}
-                className="bg-stone-100  antialiased px-2 py-1 border rounded-md"
+                className="bg-stone-100 dark:bg-stone-800 dark:text-stone-50 dark:border-stone-700  antialiased px-2 py-1 border rounded-md"
               />
             </label>
           </div>
           <div className="grid grid-cols-3 gap-2">
             <label className="flex flex-col gap-1">
-              <span className="text-gray-700 ">Date of Birth</span>
+              <span className="text-gray-700 dark:text-stone-50">
+                Date of Birth
+              </span>
               <input
                 type="date"
                 name="dob"
                 value={userProfile.dob}
                 onChange={handleInputChange}
-                className="bg-stone-100  antialiased px-2 py-1 border rounded-md"
+                className="bg-stone-100 dark:bg-stone-800 dark:text-stone-50 dark:border-stone-700  antialiased px-2 py-1 border rounded-md"
               />
             </label>
             <label className="flex flex-col gap-1">
-              <span className="text-gray-700 ">Account Type</span>
+              <span className="text-gray-700 dark:text-stone-50">
+                Account Type
+              </span>
               <select
                 type="text"
                 name="accountType"
                 value={userProfile.accountType}
                 onChange={handleInputChange}
                 className="bg-stone-100 
-                antialiased px-2 py-1 border rounded-md"
+                antialiased px-2 py-1 border dark:bg-stone-800 dark:text-stone-50 dark:border-stone-700 rounded-md"
               >
                 <option value="" disabled>
                   Select

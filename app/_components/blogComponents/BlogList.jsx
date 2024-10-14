@@ -56,7 +56,7 @@ const BlogsList = () => {
 
   return (
     <div>
-      <div className="mx-auto lg:max-w-[90rem] px-6 lg:px-8">
+      <div className="dark:bg-black dark:text-stone-50 mx-auto lg:max-w-[90rem] px-6 lg:px-8">
         <div className="mx-auto flex flex-col max-w-2xl gap-x-8 gap-y-16 lg:mx-0 lg:max-w-none">
           {data?.pages.map((page) =>
             page.data.blogs.map((post, index) => (
@@ -69,9 +69,9 @@ const BlogsList = () => {
                     <img
                       alt="Authors"
                       src={post.author.photo}
-                      className="h-6 w-6 rounded-full bg-gray-50"
+                      className="h-6 w-6 rounded-full"
                     />
-                    <div className="text-sm flex font-medium text-gray-900 items-center gap-1">
+                    <div className="text-sm flex font-medium items-center gap-1">
                       <Link
                         className="hover:underline"
                         href={`p/${post.author.userName}`}
@@ -92,7 +92,7 @@ const BlogsList = () => {
                   </div>
 
                   <div className="group relative">
-                    <h3 className="mt-3 text-xl font-bold leading-6 text-gray-900 group-hover:text-gray-600">
+                    <h3 className="mt-3 text-xl font-bold leading-6 hover:text-stone-600 dark:group-hover:text-white">
                       <Link
                         href={`/story/${post.slug}`}
                         className={`${rubik.className}`}
@@ -101,7 +101,7 @@ const BlogsList = () => {
                         {post.heading}
                       </Link>
                     </h3>
-                    <p className="mt-5 line-clamp-3 text-sm leading-6 text-gray-600">
+                    <p className="mt-5 line-clamp-3 text-sm leading-6 ">
                       {post.description}
                     </p>
                   </div>

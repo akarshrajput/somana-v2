@@ -46,16 +46,19 @@ const DailyQuote = () => {
   }, []);
 
   return (
-    <div className="bg-stone-100 p-2 rounded-md">
+    <div className="bg-stone-100 dark:bg-stone-700 p-2 rounded-md">
       <p className="font-bold flex items-center gap-1 mb-1">
         Quote of the day
         <Quotes weight="fill" />
       </p>
       <div>
-        <p className="text-sm text-green-800">
+        <p className="text-sm font-medium dark:text-green-100 text-green-800">
           {quote}
           <span>
-            <Quotes weight="bold" className="text-stone-800" />
+            <Quotes
+              weight="bold"
+              className="text-stone-800 dark:text-stone-50"
+            />
           </span>
         </p>
       </div>

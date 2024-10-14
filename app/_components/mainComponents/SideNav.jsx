@@ -21,25 +21,9 @@ const SideNav = () => {
           <Headphones weight="fill" />
           Music
         </button>
-        <button className="font-semibold flex items-center gap-1 bg-stone-200 rounded-md p-1 px-2">
-          <DeviceMobileSpeaker weight="fill" />
-          Viral videos
-        </button>
-        <button className="font-semibold flex items-center gap-1 bg-stone-200 rounded-md p-1 px-2">
-          <DeviceMobileSpeaker weight="fill" />
-          Viral videos
-        </button>
-        <button className="font-semibold flex items-center gap-1 bg-stone-200 rounded-md p-1 px-2">
-          <DeviceMobileSpeaker weight="fill" />
-          Viral videos
-        </button>
-        <button className="font-semibold flex items-center gap-1 bg-stone-200 rounded-md p-1 px-2">
-          <DeviceMobileSpeaker weight="fill" />
-          Viral videos
-        </button>
       </div>
       <TrendingBlogs />
-      <div className="bg-sky-200 p-2 rounded-md flex flex-col gap-20">
+      <div className="bg-sky-200 dark:bg-sky-900 p-2 rounded-md flex flex-col gap-20">
         <p className="font-semibold">Write on Somana</p>
         <Link
           href="/"

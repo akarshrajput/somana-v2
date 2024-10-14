@@ -7,7 +7,7 @@ const rubik = Rubik({
 
 const TrendingBlogs = () => {
   return (
-    <div className="flex flex-col  gap-2 p-2 rounded-md">
+    <div className="flex flex-col dark:text-stone-50  gap-2 p-2 rounded-md">
       <p className="font-bold">Trending</p>
       <div className="text-sm">
         <div className="relative flex items-center gap-x-2">
@@ -16,7 +16,7 @@ const TrendingBlogs = () => {
                 src={post.author.photo}
                 className="h-6 w-6 rounded-full bg-gray-50"
               /> */}
-          <div className="text-sm flex font-medium text-gray-900 items-center gap-1">
+          <div className="text-sm flex font-medium dark:text-stone-50 items-center gap-1">
             <Link className="hover:underline" href="/">
               Akarsh Rajput
             </Link>
@@ -35,7 +35,7 @@ const TrendingBlogs = () => {
                 src={post.author.photo}
                 className="h-6 w-6 rounded-full bg-gray-50"
               /> */}
-          <div className="text-sm flex font-medium text-gray-900 items-center gap-1">
+          <div className="text-sm flex font-medium dark:text-stone-50 items-center gap-1">
             <Link className="hover:underline" href="/">
               Akarsh Rajput
             </Link>
@@ -54,7 +54,7 @@ const TrendingBlogs = () => {
                 src={post.author.photo}
                 className="h-6 w-6 rounded-full bg-gray-50"
               /> */}
-          <div className="text-sm flex font-medium text-gray-900 items-center gap-1">
+          <div className="text-sm flex font-medium dark:text-stone-50 items-center gap-1">
             <Link className="hover:underline" href="/">
               Akarsh Rajput
             </Link>

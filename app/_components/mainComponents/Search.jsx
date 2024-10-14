@@ -21,13 +21,14 @@ const Search = () => {
   return (
     <>
       <button
-        className="bg-stone-200 border border-stone-300 p-1 rounded-md px-2 font-semibold flex items-center gap-1"
+        className="bg-stone-200 dark:bg-black dark:text-stone-50 dark:border-stone-700 border border-stone-300 p-1 rounded-md px-2 font-semibold flex items-center gap-1"
         onClick={onOpen}
       >
         <MagnifyingGlass weight="bold" />
         Search
         <span>
-          <Kbd>shift</Kbd> + <Kbd>H</Kbd>
+          <Kbd className="dark:bg-black dark:text-stone-50">shift</Kbd> +{" "}
+          <Kbd className="dark:bg-black dark:text-stone-50">H</Kbd>
         </span>
       </button>
 

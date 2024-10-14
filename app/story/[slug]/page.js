@@ -78,7 +78,7 @@ const Page = async ({ params }) => {
 
   return (
     <>
-      <div className="flex justify-center py-6 px-4">
+      <div className="flex justify-center py-6 px-4 dark:bg-black dark:text-stone-50">
         <div className="w-[700px]">
           <div>
             {/* <BlogInfoPopUp session={session} blog={blog} /> */}
@@ -105,7 +105,10 @@ const Page = async ({ params }) => {
             />
             <p className="font-semibold">{blog.author.name}</p>
             {blog.author.verified && (
-              <SealCheck className="text-black" weight="fill" />
+              <SealCheck
+                className="text-black dark:bg-black dark:text-stone-50"
+                weight="fill"
+              />
             )}
             <div className="ml-2 flex flex-wrap gap-0 items-center">
               <LikeButton
@@ -136,13 +139,13 @@ const Page = async ({ params }) => {
             />
           </div>
           <div className="flex flex-col items-center">
-            <p className="my-4  lg:w-full border-stone-700 text-stone-600">
+            <p className="my-4  lg:w-full dark:bg-black dark:text-stone-50 border-stone-700 text-stone-600">
               {blog.description}
             </p>
           </div>
           <div className="flex justify-center">
             <div
-              className={`hyphens-auto  text-sm md:text-lg overflow-hidden leading-loose mt-10 tracking-wider text-stone-700  antialiased mb-10`}
+              className={`hyphens-auto  text-sm md:text-lg overflow-hidden leading-loose mt-10 tracking-wider dark:bg-black dark:text-stone-50 text-stone-700  antialiased mb-10`}
               dangerouslySetInnerHTML={{ __html: contentWithLineBreaks }}
             ></div>
           </div>
