@@ -19,6 +19,7 @@ export async function GET(request) {
         { status: 404 }
       );
     }
+
     const cookies = request.cookies.get("viewedBlog"); // Retrieve cookie if exists
     let hasViewed = cookies && cookies.includes(slug);
 
