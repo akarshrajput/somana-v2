@@ -65,6 +65,10 @@ const Page = async ({ params }) => {
   const session = await auth();
   let userId = session ? session.user.userId : "";
 
+  const ipResponse = await fetch(`${process.env.HOSTNAME}/api/v1/ip`, {
+    cache: "no-store",
+  });
+
   const blog = await fetchBlogData(params.slug);
 
   const contentWithLineBreaks = blog.content;

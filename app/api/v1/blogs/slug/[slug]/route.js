@@ -1,3 +1,4 @@
+import { getIpAddress } from "@/app/_lib/getIpAddress";
 import connectMongoDB from "./../../../../../_lib/mongodb";
 import Blog from "./../../../../../_models/blogModel";
 import { NextResponse } from "next/server";
@@ -17,6 +18,19 @@ export async function GET(request) {
         if (!blog.views.includes(userId)) {
           blog.views.push(userId);
           await blog.save();
+        }
+      } else {
+        const ip = getIpAddress(request); // Ensure this returns a proper value
+        console.log("User IP:", ip); // Log the IP for debugging
+
+        if (ip) {
+          const sanitizedIp = ip.replace(/[^a-zA-Z0-9.]/g, "_");
+          console.log("Sanitized IP:", sanitizedIp); // Log sanitized IP for debugging
+
+          if (!blog.views.includes(sanitizedIp)) {
+            blog.views.push(sanitizedIp);
+            await blog.save();
+          }
         }
       }
 
