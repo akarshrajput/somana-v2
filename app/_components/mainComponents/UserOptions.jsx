@@ -27,18 +27,18 @@ import LogoutBtn from "../buttons/LogoutBtn";
 import LoginBtn from "../buttons/LoginBtn";
 import { useTheme } from "next-themes";
 const UserOptions = ({ session }) => {
-  const { resolvedTheme } = useTheme();
+  const { theme } = useTheme();
 
   return (
     <div className="flex items-center">
       {session ? (
-        <Menu bgColor={resolvedTheme === "dark" ? "black" : "white"}>
+        <Menu>
           <MenuButton>
             <img src={session?.user?.image} className="size-9 rounded-full" />
           </MenuButton>
-          <MenuList bgColor="black">
+          <MenuList>
             <Link href="/me">
-              <MenuItem bgColor="black">
+              <MenuItem>
                 <UserCircle weight="bold" className="mr-2" />
                 Profile
               </MenuItem>
