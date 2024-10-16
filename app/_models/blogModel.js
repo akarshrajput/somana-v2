@@ -56,7 +56,8 @@ const blogSchema = new mongoose.Schema(
     },
     views: [
       {
-        type: String,
+        type: mongoose.Schema.ObjectId,
+        ref: "User",
       },
     ],
     likes: [
